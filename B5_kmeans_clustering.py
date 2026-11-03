@@ -21,8 +21,12 @@ Key Concepts & Viva Points:
 - Encoding Latin1: sales_data_sample.csv typically contains European character encodings;
   pd.read_csv(..., encoding='latin1') prevents UnicodeDecodeError.
 
+Installation (run once):
+  python -m pip install numpy pandas scikit-learn matplotlib
+
 Execution:
   python3 B5_kmeans_clustering.py
+  python3 B5_kmeans_clustering.py --plot
 """
 
 import os
@@ -94,37 +98,24 @@ data_with_clusters["Cluster"] = cluster_labels
 print("\nMean feature values by cluster:")
 print(data_with_clusters.groupby("Cluster").mean().round(2))
 
-# --- 5. Optional Visualizations ---
+# --- 5. Optional simple plots: elbow curve and cluster scatter plot ---
 def show_plots():
     try:
         import matplotlib.pyplot as plt
 
-        # Plot 1: Elbow Curve
-        fig, axes = plt.subplots(1, 2, figsize=(14, 5))
-
-        axes[0].plot(list(k_range), inertias, marker="o", color="blue", linewidth=2)
-        axes[0].set_xlabel("Number of Clusters (k)")
-        axes[0].set_ylabel("Inertia (Within-Cluster Sum of Squares)")
-        axes[0].set_title("Elbow Method for Optimal k")
-        axes[0].axvline(optimal_k, color="red", linestyle="--", label=f"Elbow (k = {optimal_k})")
-        axes[0].grid(True, alpha=0.3)
-        axes[0].legend()
-
-        # Plot 2: Scatter of Clusters
-        scatter = axes[1].scatter(
-            scaled_data[:, 0], scaled_data[:, 2],
-            c=cluster_labels, cmap="viridis", alpha=0.6, s=30
-        )
-        axes[1].set_xlabel("Quantity Ordered (Standardized)")
-        axes[1].set_ylabel("Sales (Standardized)")
-        axes[1].set_title(f"K-Means Clusters (k = {optimal_k})")
-        axes[1].grid(True, alpha=0.3)
-
-        plt.tight_layout()
-        print("\nDisplaying elbow & cluster plots... (close window to finish)")
+        plt.plot(list(k_range), inertias, marker="o")
+        plt.xlabel("Number of clusters (k)")
+        plt.ylabel("Inertia")
+        plt.title("Elbow Method")
         plt.show()
-    except Exception as e:
-        print(f"\nPlotting skipped ({e}).")
+
+        plt.scatter(scaled_data[:, 0], scaled_data[:, 2], c=cluster_labels, cmap="viridis")
+        plt.xlabel("Quantity Ordered (standardized)")
+        plt.ylabel("Sales (standardized)")
+        plt.title("K-Means Customer Clusters")
+        plt.show()
+    except ImportError:
+        print("Install matplotlib to display plots: python -m pip install matplotlib")
 
 if "--plot" in sys.argv:
     show_plots()
