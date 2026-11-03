@@ -1,0 +1,53 @@
+# Compiled C++ Executables and Objects
+*.o
+*.out
+*.exe
+A1
+A2
+A3
+A4
+A5
+*.dSYM/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Data Files & Logs (Optional large CSVs)
+# uber.csv
+# emails.csv
+# Churn_Modelling.csv
+# sales_data_sample.csv
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editor & IDE configs
+.vscode/
+.idea/
+*.swp
+*.swo
