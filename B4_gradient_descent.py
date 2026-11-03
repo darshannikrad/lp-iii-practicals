@@ -23,11 +23,16 @@ Key Concepts & Viva Points:
 - Stopping Criteria: Maximum iterations reached, gradient below threshold, or
   abs(new_x - x) < tolerance.
 
+Installation (only for plotting):
+  python -m pip install matplotlib
+
 Execution:
   python3 B4_gradient_descent.py
+  python3 B4_gradient_descent.py --plot
 """
 
 import sys
+
 
 def basic_gradient_descent():
     print("=" * 60)
@@ -82,33 +87,24 @@ def gradient_descent_with_tolerance():
 
 def plot_convergence(history):
     try:
-        import numpy as np
         import matplotlib.pyplot as plt
 
-        xs = np.linspace(-6, 4, 200)
-        ys = (xs + 3)**2
-
-        plt.figure(figsize=(8, 5))
-        plt.plot(xs, ys, label="f(x) = (x + 3)^2", color="blue")
-        path_y = [(h + 3)**2 for h in history]
-        plt.scatter(history, path_y, color="red", zorder=5, label="Descent Steps")
-        plt.plot(history, path_y, color="red", linestyle="--", alpha=0.6)
-        plt.title("Gradient Descent Optimization Path for y = (x + 3)^2")
+        x_values = [i / 20 for i in range(-120, 81)]
+        y_values = [(x + 3) ** 2 for x in x_values]
+        plt.plot(x_values, y_values, label="y = (x + 3)^2")
+        plt.scatter(history, [(x + 3) ** 2 for x in history], color="red", label="Descent steps")
         plt.xlabel("x")
         plt.ylabel("y")
-        plt.axvline(-3, color="green", linestyle=":", label="Global Min at x = -3")
+        plt.title("Gradient Descent")
         plt.legend()
-        plt.grid(True, alpha=0.3)
-        plt.tight_layout()
-        print("\nDisplaying plot... (close window to finish)")
+        plt.grid(True)
         plt.show()
-    except Exception as e:
-        print(f"\nNote: Plotting skipped ({e}). Run in GUI environment to see plot.")
+    except ImportError:
+        print("Install matplotlib to display the plot: python -m pip install matplotlib")
 
 
 if __name__ == "__main__":
     basic_gradient_descent()
     history = gradient_descent_with_tolerance()
-    # If user passed '--plot' or running interactively, show plot if matplotlib is installed
     if "--plot" in sys.argv:
         plot_convergence(history)
